@@ -6,6 +6,7 @@ import '../../core/auth/auth_provider.dart';
 import '../../core/auth/jwt_utils.dart';
 import '../../core/theme/app_colors.dart';
 import '../widgets/role_badge.dart';
+import '../widgets/mock_mode_banner.dart';
 
 class PublicScaffold extends StatelessWidget {
   const PublicScaffold({super.key, required this.child});
@@ -204,6 +205,7 @@ class PublicScaffold extends StatelessWidget {
               ),
             ),
           ),
+          const MockModeBanner(),
           if (!auth.isAuthenticated && (path == '/' || path.startsWith('/consulta')))
             Container(
               width: double.infinity,

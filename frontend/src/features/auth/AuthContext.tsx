@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { extractRolesFromToken } from '@/shared/utils/jwt';
+import { USE_MOCK, DEMO_USER } from '@/shared/config/env';
+import { buildMockJwt } from '@/mocks/mockToken';
 
 interface AuthState {
   token: string | null;
@@ -9,6 +11,7 @@ interface AuthState {
   logout: () => void;
   isAuthenticated: boolean;
   hasRole: (...roles: string[]) => boolean;
+  isMockMode: boolean;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -26,10 +29,32 @@ function loadRoles(): string[] {
   }
 }
 
+function createMockSession() {
+  const token = buildMockJwt(DEMO_USER.username, DEMO_USER.email, DEMO_USER.roles);
+  sessionStorage.setItem(TOKEN_KEY, token);
+  sessionStorage.setItem(USER_KEY, DEMO_USER.username);
+  sessionStorage.setItem(ROLES_KEY, JSON.stringify(DEMO_USER.roles));
+  return { token, username: DEMO_USER.username, roles: DEMO_USER.roles };
+}
+
+function loadInitialSession() {
+  if (USE_MOCK) {
+    return createMockSession();
+  }
+  const token = sessionStorage.getItem(TOKEN_KEY);
+  const username = sessionStorage.getItem(USER_KEY);
+  const roles = loadRoles();
+  if (token && roles.length === 0) {
+    return { token, username, roles: extractRolesFromToken(token) };
+  }
+  return { token, username, roles };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => sessionStorage.getItem(TOKEN_KEY));
-  const [username, setUsername] = useState<string | null>(() => sessionStorage.getItem(USER_KEY));
-  const [roles, setRoles] = useState<string[]>(loadRoles);
+  const initial = loadInitialSession();
+  const [token, setToken] = useState<string | null>(initial.token);
+  const [username, setUsername] = useState<string | null>(initial.username);
+  const [roles, setRoles] = useState<string[]>(initial.roles);
 
   const login = useCallback((t: string, user: string) => {
     const r = extractRolesFromToken(t);
@@ -59,7 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ token, username, roles, login, logout, isAuthenticated: !!token, hasRole }),
+    () => ({
+      token,
+      username,
+      roles,
+      login,
+      logout,
+      isAuthenticated: !!token,
+      hasRole,
+      isMockMode: USE_MOCK,
+    }),
     [token, username, roles, login, logout, hasRole]
   );
 

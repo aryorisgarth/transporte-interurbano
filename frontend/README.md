@@ -58,3 +58,23 @@ npm run preview
 ```
 
 Variable opcional: `VITE_API_URL` (URL base del backend si no usa proxy).
+
+## Modo demo (Vercel / estático)
+
+Para desplegar sin backend ni Keycloak, configure en Vercel (o en `.env.local`):
+
+```bash
+VITE_USE_MOCK=true
+```
+
+Con esto:
+- La autenticación se simula (usuario demo: `demo@transporte.com`, rol admin plataforma).
+- Las APIs devuelven datos de `src/mocks/mockData.ts` (empresas, buses, viajes, asientos, ventas, reportes).
+- El flujo real con Keycloak se mantiene cuando `VITE_USE_MOCK` no está definida o es `false`.
+
+Build demo local:
+
+```bash
+VITE_USE_MOCK=true npm run build
+npm run preview
+```

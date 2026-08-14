@@ -1,3 +1,6 @@
+import { USE_MOCK } from '@/shared/config/env';
+import { handleMockRequest } from '@/mocks/mockApi';
+
 const BASE = import.meta.env.VITE_API_URL ?? '';
 
 interface ApiErrorBody {
@@ -13,6 +16,10 @@ function parseErrorMessage(body: ApiErrorBody, status: number): string {
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  if (USE_MOCK) {
+    return handleMockRequest<T>(path, options);
+  }
+
   const res = await fetch(`${BASE}${path}`, {
     ...options,
     headers: {

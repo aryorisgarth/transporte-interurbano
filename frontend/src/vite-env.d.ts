@@ -2,6 +2,9 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_URL?: string;
+  readonly VITE_KEYCLOAK_URL?: string;
+  /** Si es "true", usa datos estáticos y auth simulada (despliegue Vercel). */
+  readonly VITE_USE_MOCK?: string;
 }
 
 interface ImportMeta {

@@ -15,6 +15,7 @@ import DirectionsBusFilledIcon from '@mui/icons-material/DirectionsBusFilled';
 import LoginIcon from '@mui/icons-material/Login';
 import { loginKeycloak } from '@/shared/api';
 import { useAuth } from '@/features/auth/AuthContext';
+import { USE_MOCK, DEMO_USER } from '@/shared/config/env';
 import { extractRolesFromToken, rutaInicio } from '@/shared/utils/jwt';
 
 const INTENT_LABEL: Record<string, string> = {
@@ -79,6 +80,13 @@ export default function LoginPersonal() {
               </Typography>
             </Box>
           </Box>
+
+          {USE_MOCK && (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              <strong>Modo demo:</strong> datos estáticos sin Keycloak ni backend. Use cualquier usuario/contraseña
+              o entre directamente — sesión: {DEMO_USER.name} ({DEMO_USER.email}).
+            </Alert>
+          )}
 
           <TextField
             fullWidth

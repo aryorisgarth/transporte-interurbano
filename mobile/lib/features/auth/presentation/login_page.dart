@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/auth/auth_provider.dart';
 import '../../../core/auth/jwt_utils.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/theme/app_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -102,6 +103,21 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+                if (AppConfig.useMock)
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.shade100),
+                    ),
+                    child: Text(
+                      'Modo demo: use cualquier usuario/contraseña. '
+                      'Sesión: ${DemoUser.name} (${DemoUser.email}).',
+                      style: TextStyle(color: Colors.blue.shade900, fontSize: 13),
+                    ),
+                  ),
                 TextField(
                   controller: _userCtrl,
                   decoration: const InputDecoration(labelText: 'Usuario'),

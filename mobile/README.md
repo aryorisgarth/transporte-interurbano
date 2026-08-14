@@ -26,6 +26,21 @@ La versión **React** en `frontend/` **no se elimina**; ambas web conviven.
 
 Documentación detallada: [docs/FLUTTER-WEB.md](../docs/FLUTTER-WEB.md)
 
+### Modo demo (sin backend ni Keycloak)
+
+Equivalente a `VITE_USE_MOCK=true` en React:
+
+```powershell
+.\scripts\flutter-web-demo.ps1
+```
+
+Build estático para hosting:
+
+```powershell
+cd mobile
+flutter build web --dart-define=USE_MOCK=true --no-web-resources-cdn
+```
+
 ## Arranque Android (emulador)
 
 ```powershell

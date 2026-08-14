@@ -24,6 +24,7 @@ import {
 } from '@/shared/utils/jwt';
 import { primaryRoleLabel } from '@/shared/utils/rolesUi';
 import { RoleBadge } from '@/shared/ui/RoleBadge';
+import { USE_MOCK } from '@/shared/config/env';
 
 export function Layout() {
   const { isAuthenticated, username, logout, token, roles } = useAuth();
@@ -204,6 +205,22 @@ export function Layout() {
           </Box>
         )}
       </AppBar>
+      )}
+
+      {USE_MOCK && (
+        <Box
+          sx={{
+            py: 0.5,
+            px: 2,
+            textAlign: 'center',
+            bgcolor: 'warning.light',
+            color: 'warning.contrastText',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+          }}
+        >
+          Modo demo — datos estáticos (VITE_USE_MOCK=true). Sin backend ni Keycloak.
+        </Box>
       )}
 
       {fullBleed ? (

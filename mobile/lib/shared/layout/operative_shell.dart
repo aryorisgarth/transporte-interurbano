@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/auth/auth_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../widgets/role_badge.dart';
+import '../widgets/mock_mode_banner.dart';
 
 class OperativeShellLink {
   const OperativeShellLink({required this.label, required this.to});
@@ -193,6 +194,7 @@ class _OperativeShellState extends State<OperativeShell> {
           Expanded(
             child: Column(
               children: [
+                const MockModeBanner(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   decoration: BoxDecoration(

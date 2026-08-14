@@ -1,3 +1,7 @@
+import { USE_MOCK, DEMO_USER } from '@/shared/config/env';
+import { buildMockJwt } from '@/mocks/mockToken';
+import { MOCK_DELAY_MS } from '@/mocks/mockData';
+
 const KEYCLOAK_BASE =
   import.meta.env.VITE_KEYCLOAK_URL ??
   (import.meta.env.DEV
@@ -5,6 +9,14 @@ const KEYCLOAK_BASE =
     : 'http://localhost:8180/realms/transporte-bluefields');
 
 export async function loginKeycloak(username: string, password: string): Promise<string> {
+  if (USE_MOCK) {
+    await new Promise((resolve) => setTimeout(resolve, MOCK_DELAY_MS));
+    if (!username.trim() || !password) {
+      throw new Error('Usuario y contraseña son obligatorios.');
+    }
+    return buildMockJwt(DEMO_USER.username, DEMO_USER.email, DEMO_USER.roles);
+  }
+
   const user = username.trim();
   const pass = password;
 

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/auth_api.dart';
+import '../config/app_config.dart';
+import '../../mocks/mock_token.dart';
 import 'jwt_utils.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -19,20 +21,39 @@ class AuthProvider extends ChangeNotifier {
   String? get username => _username;
   List<String> get roles => List.unmodifiable(_roles);
   bool get isAuthenticated => _token != null && _token!.isNotEmpty;
+  bool get isMockMode => AppConfig.useMock;
 
   bool hasRole(String role) => _roles.contains(role);
 
   bool hasAnyRole(List<String> required) =>
       required.any((r) => _roles.contains(r));
 
+  Future<void> _persistMockSession() async {
+    final token = demoMockToken();
+    _token = token;
+    _username = DemoUser.username;
+    _roles = List<String>.from(DemoUser.roles);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_tokenKey, token);
+    await prefs.setString(_usernameKey, DemoUser.username);
+    await prefs.setStringList(_rolesKey, _roles);
+  }
+
   Future<void> loadSession() async {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString(_tokenKey);
     _username = prefs.getString(_usernameKey);
     _roles = prefs.getStringList(_rolesKey) ?? [];
+
     if (_token != null && _roles.isEmpty) {
       _roles = extractRolesFromToken(_token!);
     }
+
+    if (AppConfig.useMock && (_token == null || _token!.isEmpty)) {
+      await _persistMockSession();
+    }
+
     notifyListeners();
   }
 
@@ -43,7 +64,7 @@ class AuthProvider extends ChangeNotifier {
       throw Exception('No se pudieron obtener permisos.');
     }
     _token = token;
-    _username = user.trim();
+    _username = AppConfig.useMock ? DemoUser.username : user.trim();
     _roles = roles;
 
     final prefs = await SharedPreferences.getInstance();

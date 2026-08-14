@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
+import '../../mocks/mock_data.dart';
+import '../../mocks/mock_token.dart';
 import 'api_client.dart';
 
 class AuthApi {
@@ -12,6 +14,11 @@ class AuthApi {
     final pass = password;
     if (user.isEmpty || pass.isEmpty) {
       throw ApiException('Usuario y contraseña son obligatorios.');
+    }
+
+    if (AppConfig.useMock) {
+      await Future<void>.delayed(const Duration(milliseconds: mockDelayMs));
+      return demoMockToken();
     }
 
     http.Response response;

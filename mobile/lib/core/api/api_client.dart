@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
+import '../../mocks/mock_api.dart';
 
 class ApiException implements Exception {
   ApiException(this.message, {this.statusCode});
@@ -45,6 +46,10 @@ class ApiClient {
     Object? body,
     String? token,
   }) async {
+    if (AppConfig.useMock) {
+      return handleMockRequest(method, path, query: query, body: body);
+    }
+
     final headers = <String, String>{'Content-Type': 'application/json'};
     if (token != null && token.isNotEmpty) {
       headers['Authorization'] = 'Bearer $token';
