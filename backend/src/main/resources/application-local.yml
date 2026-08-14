@@ -1,0 +1,13 @@
+# Perfil local: API abierta sin Keycloak (solo desarrollo rapido)
+transporte:
+  security:
+    enabled: false
+
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+
+logging:
+  level:
+    org.springframework.security: WARN

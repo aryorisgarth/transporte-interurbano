@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-01-rol-cajero
+      author: transporte
+      comment: Rol CAJERO - venta en terminal
+      changes:
+        - insert:
+            tableName: rol
+            columns:
+              - column:
+                  name: nombre
+                  value: CAJERO
+              - column:
+                  name: descripcion
+                  value: "Operador de ventanilla: vende boletos en terminal"
+
+  - changeSet:
+      id: 002-02-rol-admin-empresa
+      author: transporte
+      changes:
+        - insert:
+            tableName: rol
+            columns:
+              - column:
+                  name: nombre
+                  value: ADMIN_EMPRESA
+              - column:
+                  name: descripcion
+                  value: "Administrador de una empresa de transporte"
+
+  - changeSet:
+      id: 002-03-rol-admin-general
+      author: transporte
+      changes:
+        - insert:
+            tableName: rol
+            columns:
+              - column:
+                  name: nombre
+                  value: ADMIN_GENERAL
+              - column:
+                  name: descripcion
+                  value: "Administrador global de la plataforma"
+
+  - changeSet:
+      id: 002-04-rol-reserva-excepcional
+      author: transporte
+      changes:
+        - insert:
+            tableName: rol
+            columns:
+              - column:
+                  name: nombre
+                  value: RESERVA_EXCEPCIONAL
+              - column:
+                  name: descripcion
+                  value: "Permiso especial para apartar asiento sin venta inmediata"

@@ -1,0 +1,23 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #comprobante-venta,
+  #comprobante-venta * {
+    visibility: visible;
+  }
+
+  #comprobante-venta {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .MuiDialog-root .MuiBackdrop-root,
+  .MuiDialogActions-root,
+  .MuiDialogTitle-root {
+    display: none !important;
+  }
+}

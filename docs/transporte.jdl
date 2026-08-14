@@ -1,0 +1,165 @@
+/**
+ * JDL - Sistema de Gestion de Transporte Interurbano Bluefields - Managua
+ *
+ * Importar en: https://start.jhipster.io/jdl-studio/
+ * Comparar con: docs/DISENO-BD.md y db/changelog/changes/001-schema-consolidado.sql
+ *
+ * NOTA: Este JDL documenta el dominio. El proyecto actual usa Spring Boot manual
+ * (backend/) + Liquibase, no un monolito JHipster generado.
+ */
+
+enum PosicionAsiento {
+  VENTANA, PASILLO
+}
+
+enum EstadoAsientoViaje {
+  DISPONIBLE, VENDIDO, CANCELADO, RESERVADO_EXCEPCIONAL
+}
+
+enum EstadoViaje {
+  PROGRAMADO, EN_CURSO, COMPLETADO, CANCELADO
+}
+
+enum EstadoVenta {
+  COMPLETADA, CANCELADA, PARCIALMENTE_CANCELADA
+}
+
+enum EstadoBoleto {
+  ACTIVO, CANCELADO
+}
+
+enum EstadoReservaExcepcional {
+  ACTIVA, CONVERTIDA, CANCELADA, EXPIRADA
+}
+
+entity Empresa {
+  nombre String required maxlength(150)
+  telefono String maxlength(20)
+  correo String maxlength(150)
+  tarifaEquipajeExtra BigDecimal required min(0)
+  activo Boolean required
+}
+
+entity Bus {
+  numeroInterno String required maxlength(20)
+  placa String required unique maxlength(20)
+  capacidad Integer required min(2)
+  filas Integer required min(1)
+  activo Boolean required
+}
+
+entity AsientoBus {
+  numero Integer required min(1)
+  fila Integer required min(1)
+  posicion PosicionAsiento required
+}
+
+entity Viaje {
+  origen String required maxlength(100)
+  destino String required maxlength(100)
+  fecha LocalDate required
+  horaSalida LocalTime required
+  tarifa BigDecimal required min(0)
+  tarifaEquipajeExtra BigDecimal min(0)
+  estado EstadoViaje required
+  observaciones String maxlength(500)
+}
+
+entity ViajeAsiento {
+  estado EstadoAsientoViaje required
+  version Integer required
+}
+
+entity Venta {
+  codigo String required unique maxlength(30)
+  compradorNombre String required maxlength(150)
+  compradorCedula String required maxlength(30)
+  compradorTelefono String maxlength(20)
+  cantidadBoletos Integer required min(1)
+  subtotalBoletos BigDecimal required min(0)
+  subtotalEquipaje BigDecimal required min(0)
+  total BigDecimal required min(0)
+  fechaVenta Instant required
+  estado EstadoVenta required
+}
+
+entity Boleto {
+  numeroAsiento Integer required min(1)
+  monto BigDecimal required min(0)
+  incluyeEquipaje Boolean required
+  estado EstadoBoleto required
+}
+
+entity EquipajeExtra {
+  cantidad Integer required min(1)
+  montoUnitario BigDecimal required min(0)
+  montoTotal BigDecimal required min(0)
+  descripcion String maxlength(255)
+}
+
+entity ReservaExcepcional {
+  compradorNombre String required maxlength(150)
+  compradorCedula String required maxlength(30)
+  compradorTelefono String maxlength(20)
+  motivo TextBlob required
+  estado EstadoReservaExcepcional required
+  fechaReserva Instant required
+  fechaExpiracion Instant
+}
+
+entity Usuario {
+  keycloakId String unique maxlength(36)
+  nombreUsuario String required unique maxlength(50)
+  nombreCompleto String required maxlength(150)
+  activo Boolean required
+}
+
+entity Rol {
+  nombre String required unique maxlength(50)
+  descripcion String maxlength(255)
+}
+
+relationship OneToMany {
+  Empresa{bus(numeroInterno)} to Bus{empresa(nombre) required}
+  Empresa{viaje(fecha)} to Viaje{empresa(nombre) required}
+  Empresa{venta(codigo)} to Venta{empresa(nombre) required}
+  Empresa{usuario(nombreUsuario)} to Usuario{empresa(nombre)}
+  Bus{asiento(numero)} to AsientoBus{bus(placa) required}
+  Viaje{viajeAsiento} to ViajeAsiento{viaje(fecha) required}
+  AsientoBus{viajeAsiento} to ViajeAsiento{asientoBus(numero) required}
+  Viaje{venta(codigo)} to Venta{viaje(fecha) required}
+  Venta{boleto(numeroAsiento)} to Boleto{venta(codigo) required}
+  Venta{equipajeExtra} to EquipajeExtra{venta(codigo) required}
+}
+
+relationship OneToOne {
+  ViajeAsiento{reservaExcepcional} to ReservaExcepcional{viajeAsiento required}
+}
+
+relationship ManyToOne {
+  Venta{operador(nombreUsuario)} to Usuario
+  ReservaExcepcional{operador(nombreUsuario)} to Usuario{required}
+}
+
+relationship ManyToMany {
+  Usuario{rol(nombre)} to Rol{usuario(nombreUsuario)}
+}
+
+paginate Empresa, Bus, Viaje, Venta with pagination
+dto * with mapstruct
+service * with serviceClass
+
+application {
+  config {
+    baseName transporte
+    applicationType monolith
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    buildTool maven
+    clientFramework react
+    nativeLanguage es
+  }
+  entities Empresa, Bus, AsientoBus, Viaje, ViajeAsiento, Venta, Boleto, EquipajeExtra, ReservaExcepcional, Usuario, Rol
+}

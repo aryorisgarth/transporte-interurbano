@@ -1,0 +1,171 @@
+databaseChangeLog:
+  # Sesion 4 - Liquibase: esquema versionado con changelogs YAML + SQL
+
+  - changeSet:
+      id: 001-schema-consolidado
+      author: transporte
+      comment: Tablas, indices, constraints y vista v_cupos_viaje
+      changes:
+        - sqlFile:
+            path: changes/001-schema-consolidado.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - include:
+      file: changes/002-changelog-roles.yaml
+      relativeToChangelogFile: true
+
+  - changeSet:
+      id: 003-datos-demo
+      author: transporte
+      comment: Empresas, usuarios y asignacion de roles demo
+      changes:
+        - sqlFile:
+            path: changes/003-datos-demo.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 004-datos-viajes-demo
+      author: transporte
+      comment: Buses, asientos y viajes demo para consulta publica y ventas
+      changes:
+        - sqlFile:
+            path: changes/004-datos-viajes-demo.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 005-admins-empresa-demo
+      author: transporte
+      comment: Admin por tenant Wendelyn y Martinez
+      changes:
+        - sqlFile:
+            path: changes/005-admins-empresa-demo.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 006-pasajero-boleto
+      author: transporte
+      comment: Pasajero por boleto y rol reserva excepcional demo
+      changes:
+        - sqlFile:
+            path: changes/006-pasajero-boleto.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 007-logo-paradas
+      author: transporte
+      comment: Logo empresa, foto bus, paradas ruta interurbana
+      changes:
+        - sqlFile:
+            path: changes/007-logo-paradas.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 008-demo-polish
+      author: transporte
+      comment: Nombres demo, fotos bus, venta precargada para presentacion
+      changes:
+        - sqlFile:
+            path: changes/008-demo-polish.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 009-bus-sede
+      author: transporte
+      comment: Sede terminal del bus, flota por ciudad, viaje M-B demo
+      changes:
+        - sqlFile:
+            path: changes/009-bus-sede.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 010-bus-posicion-enum
+      author: transporte
+      comment: Ampliar ENUM posicion para fila trasera del bus
+      changes:
+        - sqlFile:
+            path: changes/010-bus-posicion-enum.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 011-bus-50-asientos
+      author: transporte
+      comment: Layout 50 asientos interurbano, fila trasera 46-50
+      changes:
+        - sqlFile:
+            path: changes/011-bus-50-asientos.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 012-bus-layout-zigzag
+      author: transporte
+      comment: Patrón zigzag ventana/pasillo alternado por fila
+      changes:
+        - sqlFile:
+            path: changes/012-bus-layout-zigzag.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 013-bus-yutong-foto
+      author: transporte
+      comment: Foto Yutong interurbano en buses demo
+      changes:
+        - sqlFile:
+            path: changes/013-bus-yutong-foto.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 014-usuario-sede
+      author: transporte
+      comment: Terminal base del cajero; demo cajero Managua
+      changes:
+        - sqlFile:
+            path: changes/014-usuario-sede.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 015-usuario-email-login
+      author: transporte
+      comment: Email de login Keycloak por operador (no confundir con correo de empresa)
+      changes:
+        - sqlFile:
+            path: changes/015-usuario-email-login.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false
+
+  - changeSet:
+      id: 016-seed-cooperativas
+      author: transporte
+      comment: Cuatro cooperativas demo adicionales (6 total) con operadores, flota, viajes y ventas
+      changes:
+        - sqlFile:
+            path: changes/016-seed-cooperativas.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: false

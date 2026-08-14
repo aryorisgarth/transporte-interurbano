@@ -1,0 +1,24 @@
+# Perfil produccion (variables de entorno)
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/transporte_bluefields?useSSL=true&serverTimezone=America/Managua}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    root: WARN
+    com.bluefields.transporte: INFO
+    liquibase: WARN
+
+transporte:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:https://transporte.bluefields.local}

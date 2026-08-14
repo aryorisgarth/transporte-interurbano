@@ -1,0 +1,11 @@
+export * from './types';
+export { api } from './client';
+export * from './consulta.api';
+export * from './auth.api';
+export * from './usuarios.api';
+export * from './ventas.api';
+export * from './reportes.api';
+export * from './paradas.api';
+export * from './empresas.api';
+export * from './buses.api';
+export * from './viajes.api';

@@ -1,0 +1,292 @@
+{
+  "realm": "transporte-bluefields",
+  "enabled": true,
+  "displayName": "Transporte Bluefields - Managua",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "CAJERO",
+        "description": "Operador de ventanilla"
+      },
+      {
+        "name": "ADMIN_EMPRESA",
+        "description": "Administrador de empresa de transporte"
+      },
+      {
+        "name": "ADMIN_GENERAL",
+        "description": "Administrador global de la plataforma"
+      },
+      {
+        "name": "RESERVA_EXCEPCIONAL",
+        "description": "Permiso especial para reserva excepcional"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "transporte-api",
+      "name": "Transporte API",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost:3000/*",
+        "http://localhost:8080/*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "cajero.wendelyn",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "Wendelyn",
+      "email": "cajero@wendelyn.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CAJERO"
+      ]
+    },
+    {
+      "username": "cajero.wendelyn.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "Wendelyn Managua",
+      "email": "cajero.mga@wendelyn.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CAJERO"
+      ]
+    },
+    {
+      "username": "cajero.martinez",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "Martinez",
+      "email": "cajero@martinez.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CAJERO"
+      ]
+    },
+    {
+      "username": "admin.global",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Global",
+      "email": "admin@transporte.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN_GENERAL"
+      ]
+    },
+    {
+      "username": "admin.wendelyn",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Wendelyn",
+      "email": "admin@wendelyn.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN_EMPRESA",
+        "RESERVA_EXCEPCIONAL"
+      ]
+    },
+    {
+      "username": "admin.martinez",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Martinez",
+      "email": "admin@martinez.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN_EMPRESA"
+      ]
+    },
+    {
+      "username": "cajero.martinez.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "Martinez Managua",
+      "email": "cajero.mga@martinez.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "admin.costacaribe",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Costa Caribe",
+      "email": "admin@costacaribe.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["ADMIN_EMPRESA", "RESERVA_EXCEPCIONAL"]
+    },
+    {
+      "username": "cajero.costacaribe.bfs",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "CC Bluefields",
+      "email": "cajero.bfs@costacaribe.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "cajero.costacaribe.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "CC Managua",
+      "email": "cajero.mga@costacaribe.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "admin.ramadorada",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Rama Dorada",
+      "email": "admin@ramadorada.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["ADMIN_EMPRESA"]
+    },
+    {
+      "username": "cajero.ramadorada.bfs",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "RD Bluefields",
+      "email": "cajero.bfs@ramadorada.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "cajero.ramadorada.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "RD Managua",
+      "email": "cajero.mga@ramadorada.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "admin.atlanticosur",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Atlántico Sur",
+      "email": "admin@atlanticosur.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["ADMIN_EMPRESA"]
+    },
+    {
+      "username": "cajero.atlanticosur.bfs",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "AS Bluefields",
+      "email": "cajero.bfs@atlanticosur.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "cajero.atlanticosur.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "AS Managua",
+      "email": "cajero.mga@atlanticosur.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "admin.corredorcentro",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Corredor Centro",
+      "email": "admin@corredorcentro.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["ADMIN_EMPRESA", "RESERVA_EXCEPCIONAL"]
+    },
+    {
+      "username": "cajero.corredorcentro.bfs",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "CCN Bluefields",
+      "email": "cajero.bfs@corredorcentro.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    },
+    {
+      "username": "cajero.corredorcentro.mga",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Cajero",
+      "lastName": "CCN Managua",
+      "email": "cajero.mga@corredorcentro.com",
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["CAJERO"]
+    }
+  ]
+}

@@ -1,0 +1,531 @@
+:root {
+  --app-gradient: linear-gradient(135deg, #0c4a6e 0%, #0f766e 50%, #134e4a 100%);
+  --surface-muted: #f0f4f8;
+  --admin-border: rgba(15, 23, 42, 0.08);
+  --admin-teal: #0f766e;
+  --admin-teal-soft: rgba(15, 118, 110, 0.08);
+}
+
+body {
+  background-color: var(--surface-muted);
+  background-image: radial-gradient(circle at 10% 0%, rgba(15, 118, 110, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 100%, rgba(12, 74, 110, 0.05) 0%, transparent 40%);
+  min-height: 100vh;
+}
+
+/* Tabs de panel operativo */
+.dashboard-tabs .MuiTab-root {
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.dashboard-tabs .Mui-selected {
+  color: var(--admin-teal) !important;
+}
+
+/* Panel admin: navegación lateral */
+@media (min-width: 900px) {
+  .admin-content-area:not(:has(.platform-coops-pro)) {
+    min-height: 480px;
+  }
+}
+
+/* ─── Módulo cooperativas — diseño profesional ─── */
+
+.platform-coops-shell {
+  overflow: hidden;
+}
+
+.platform-coops-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 420px;
+}
+
+@media (min-width: 960px) {
+  .platform-coops-layout {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.platform-coops-sidebar {
+  border-right: 1px solid var(--admin-border);
+  background: rgba(248, 250, 252, 0.5);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.platform-coops-sidebar__head {
+  padding: 16px 16px 14px;
+}
+
+.platform-coop-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+@media (min-width: 960px) {
+  .platform-coop-list {
+    max-height: calc(100vh - 340px);
+  }
+}
+
+.platform-coop-list__empty {
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.platform-coop-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.platform-coop-item:hover {
+  background: #fff;
+  border-color: var(--admin-border);
+}
+
+.platform-coop-item--selected {
+  background: #fff;
+  border-color: rgba(15, 118, 110, 0.25);
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.1);
+}
+
+.platform-coop-item__avatar {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+}
+
+.platform-coop-item__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.platform-coop-item__chevron {
+  flex-shrink: 0;
+  color: var(--admin-teal);
+}
+
+.platform-coops-main {
+  min-width: 0;
+  background: #fff;
+}
+
+.platform-coop-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  min-height: 360px;
+}
+
+.platform-coop-empty-state__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--admin-teal-soft);
+  color: var(--admin-teal);
+  margin-bottom: 16px;
+}
+
+.platform-coop-empty-state__icon svg {
+  font-size: 32px;
+}
+
+/* Detalle cooperativa */
+.platform-coop-detail--embedded .platform-coop-detail-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--admin-border);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9) 0%, #fff 100%);
+}
+
+.platform-coop-detail--embedded .platform-coop-detail-body {
+  padding: 20px 24px 24px;
+}
+
+.platform-coop-detail-metrics {
+  padding-top: 4px;
+}
+
+.platform-metric-badge {
+  min-width: 72px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--admin-border);
+  background: #fff;
+  text-align: center;
+}
+
+.platform-coop-tabs-pro .MuiTab-root {
+  min-height: 40px;
+  font-size: 0.875rem;
+}
+
+.platform-form-panel {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--admin-border);
+  background: rgba(248, 250, 252, 0.8);
+  height: 100%;
+}
+
+/* Tablas admin */
+.admin-data-table {
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-data-table .MuiTableHead-root .MuiTableCell-root {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #64748b;
+  background: rgba(248, 250, 252, 0.95);
+  border-bottom: 1px solid var(--admin-border);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.admin-data-table .MuiTableBody-root .MuiTableRow-root:hover {
+  background: rgba(15, 118, 110, 0.03);
+}
+
+.stat-card--compact .MuiCard-root {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card--compact .MuiCard-root:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* ─── Consola admin — sidebar full viewport ─── */
+
+.admin-shell {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  background: #eef2f6;
+}
+
+.admin-sidebar {
+  width: 268px;
+  flex-shrink: 0;
+  background: var(--app-gradient);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 4px 0 28px rgba(12, 74, 110, 0.18);
+}
+
+.admin-sidebar--drawer {
+  width: 280px !important;
+  background: var(--app-gradient);
+  color: #fff;
+}
+
+.admin-sidebar__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.admin-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0 10px;
+  min-height: 0;
+}
+
+.admin-sidebar__extra {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+}
+
+.admin-sidebar__user {
+  padding: 16px 20px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.admin-sidebar__logout {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-sidebar__logout:hover {
+  color: #fff;
+}
+
+.admin-shell__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 28px;
+  background: #fff;
+  border-bottom: 1px solid var(--admin-border);
+  flex-shrink: 0;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+}
+
+.admin-topbar__actions {
+  flex-shrink: 0;
+}
+
+.admin-shell__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 28px 32px;
+  min-height: 0;
+}
+
+.admin-shell__content:has(.platform-coops-pro) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.platform-coops-pro {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.platform-coops-pro > .MuiGrid-root {
+  flex-shrink: 0;
+}
+
+.platform-coops-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.platform-coops-shell > .MuiPaper-root,
+.platform-coops-shell.MuiCard-root {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.platform-coops-layout {
+  flex: 1;
+  min-height: 0;
+}
+
+@media (min-width: 960px) {
+  .platform-coops-layout {
+    min-height: 0;
+  }
+
+  .platform-coop-list {
+    max-height: none;
+  }
+}
+
+.platform-coops-main {
+  overflow-y: auto;
+}
+
+.admin-nav--sidebar .MuiListItemIcon-root {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.admin-section-intro {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+}
+
+.cajero-confirm-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  padding: 12px 20px;
+  border-top: 1px solid var(--admin-border);
+  background: #fff;
+  box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.1);
+}
+
+@media (min-width: 900px) {
+  .cajero-confirm-bar {
+    left: 268px;
+  }
+}
+
+.cajero-confirm-bar__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-shell__content--cajero-venta {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 24px;
+}
+
+.cajero-venta-page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cajero-venta-page__header {
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+/* Panel de trabajo: dos columnas misma altura, scroll interno en cada una */
+.cajero-venta-page__grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .cajero-venta-page__grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 400px);
+    height: calc(100vh - 200px);
+    min-height: 480px;
+  }
+}
+
+.cajero-venta-page__map,
+.cajero-venta-page__form {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 14px;
+}
+
+.cajero-venta-page__map {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.cajero-venta-page__form {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.cajero-venta-page__map .MuiPaper-root,
+.cajero-venta-page__map .section-card,
+.cajero-venta-page__form .MuiPaper-root,
+.cajero-venta-page__form .section-card {
+  height: auto;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.cajero-venta-page__bus-wrap {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.cajero-venta-page__form-inner {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 180px);
+  padding: 24px 16px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px !important;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+.login-card__content {
+  padding: 32px 28px !important;
+}
+
+.login-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  color: var(--admin-teal);
+}
+
+.login-card__brand .MuiTypography-h5 {
+  color: #0f172a;
+}
+
