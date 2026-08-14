@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../../mocks/mock_data.dart';
+import '../../mocks/mock_demo_profile.dart';
 import '../../mocks/mock_token.dart';
 import 'api_client.dart';
 
@@ -18,7 +19,7 @@ class AuthApi {
 
     if (AppConfig.useMock) {
       await Future<void>.delayed(const Duration(milliseconds: mockDelayMs));
-      return demoMockToken();
+      return mockJwtForProfile(MockSession.profile);
     }
 
     http.Response response;

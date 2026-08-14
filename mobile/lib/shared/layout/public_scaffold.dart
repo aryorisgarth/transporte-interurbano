@@ -7,6 +7,7 @@ import '../../core/auth/jwt_utils.dart';
 import '../../core/theme/app_colors.dart';
 import '../widgets/role_badge.dart';
 import '../widgets/mock_mode_banner.dart';
+import 'responsive.dart';
 
 class PublicScaffold extends StatelessWidget {
   const PublicScaffold({super.key, required this.child});
@@ -148,7 +149,7 @@ class PublicScaffold extends StatelessWidget {
     final panelCajero = puedeUsarPanelCajero(auth.roles);
     final nav = _navButtons(context, path, auth, panelAdmin, panelCajero);
     final width = MediaQuery.sizeOf(context).width;
-    final compact = width < 640;
+    final compact = width < AppBreakpoints.mobile;
 
     return Scaffold(
       body: Column(
@@ -158,7 +159,10 @@ class PublicScaffold extends StatelessWidget {
             child: SafeArea(
               bottom: false,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppBreakpoints.horizontalPadding(context),
+                  vertical: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -223,15 +227,7 @@ class PublicScaffold extends StatelessWidget {
                 constraints: BoxConstraints(
                   minHeight: MediaQuery.sizeOf(context).height - 120,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 1200),
-                      child: child,
-                    ),
-                  ),
-                ),
+                child: ResponsiveContent(child: child),
               ),
             ),
           ),

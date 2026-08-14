@@ -1,6 +1,7 @@
 import '../core/api/api_client.dart';
 import '../core/utils/formato.dart';
 import 'mock_data.dart';
+import 'mock_demo_profile.dart';
 
 Future<void> _delay() => Future<void>.delayed(const Duration(milliseconds: mockDelayMs));
 
@@ -54,7 +55,7 @@ Future<dynamic> handleMockRequest(
   final pathname = path.split('?').first;
 
   // Perfil / usuarios
-  if (pathname == '/api/usuarios/me') return mockPerfilJson;
+  if (pathname == '/api/usuarios/me') return mockPerfilForProfile(MockSession.profile);
 
   if (pathname == '/api/usuarios' && method == 'GET') {
     final empresaId = q['empresaId'];
@@ -82,7 +83,7 @@ Future<dynamic> handleMockRequest(
   if (usuarioId != null && method == 'PATCH') {
     final user = mockOperadoresJson.cast<Map<String, dynamic>>().firstWhere(
           (o) => o['id'] == usuarioId,
-          orElse: () => mockPerfilJson,
+          orElse: () => mockPerfilForProfile(MockSession.profile),
         );
     return {...user, ...?bodyMap};
   }
@@ -257,22 +258,11 @@ Future<dynamic> handleMockRequest(
   // Consulta pública
   if (pathname == '/api/publico/viajes' && method == 'GET') {
     final fecha = q['fecha'] ?? fechaHoyIso();
-    final origen = q['origen'];
-    final destino = q['destino'];
-    var list = mockViajesDisponiblesJson(fecha);
-    if (origen != null && destino != null) {
-      list = list
-          .where(
-            (v) => mockViajesOperadorJson(fecha).any(
-                  (o) =>
-                      o['id'] == v['viajeId'] &&
-                      o['origen'] == origen &&
-                      o['destino'] == destino,
-                ),
-          )
-          .toList();
-    }
-    return list;
+    return mockViajesDisponiblesJson(
+      fecha,
+      origen: q['origen'],
+      destino: q['destino'],
+    );
   }
 
   final viajePublicoId = _matchId(pathname, '/api/publico/viajes/');
@@ -341,13 +331,20 @@ Future<dynamic> handleMockRequest(
   }
 
   // Paradas
-  if (pathname == '/api/paradas' && method == 'GET') return mockParadasJson;
+  if (pathname == '/api/paradas' && method == 'GET') {
+    final origen = q['origen'];
+    final destino = q['destino'];
+    if (origen != null && destino != null) {
+      return mockParadasForRoute(origen, destino);
+    }
+    return mockParadasBfsMgaJson;
+  }
 
   if (pathname == '/api/paradas' && method == 'POST') {
     return {
-      'id': mockParadasJson.length + 1,
+      'id': mockParadasBfsMgaJson.length + 1,
       'nombre': bodyMap?['nombre'] ?? 'Parada demo',
-      'orden': mockParadasJson.length + 1,
+      'orden': mockParadasBfsMgaJson.length + 1,
       'minutosDesdeSalida': bodyMap?['minutosDesdeSalida'] ?? 0,
       'horaEstimada': '08:00:00',
       'latitud': bodyMap?['latitud'] ?? 12.0,
@@ -357,9 +354,9 @@ Future<dynamic> handleMockRequest(
 
   final paradaId = _matchId(pathname, '/api/paradas/');
   if (paradaId != null && method == 'PUT') {
-    final p = mockParadasJson.cast<Map<String, dynamic>>().firstWhere(
+    final p = mockParadasBfsMgaJson.cast<Map<String, dynamic>>().firstWhere(
           (x) => x['id'] == paradaId,
-          orElse: () => mockParadasJson.first,
+          orElse: () => mockParadasBfsMgaJson.first,
         );
     return {...p, ...?bodyMap};
   }

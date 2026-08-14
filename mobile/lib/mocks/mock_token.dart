@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../core/config/app_config.dart';
+import 'mock_demo_profile.dart';
 
 /// JWT sintético para modo demo (sin verificación de firma; solo UI de roles).
 String buildMockJwt({
@@ -23,8 +23,8 @@ String buildMockJwt({
   return '$header.$payload.mock-signature';
 }
 
-String demoMockToken() => buildMockJwt(
-      username: DemoUser.username,
-      email: DemoUser.email,
-      roles: DemoUser.roles,
+String mockJwtForProfile(MockDemoProfile profile) => buildMockJwt(
+      username: profile.username,
+      email: profile.email,
+      roles: profile.roles,
     );

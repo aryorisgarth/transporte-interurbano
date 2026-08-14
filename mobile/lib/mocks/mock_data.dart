@@ -1,8 +1,21 @@
 import '../core/utils/formato.dart';
+import 'mock_demo_profile.dart';
 
 const mockDelayMs = 120;
 
-const vendidosViaje101 = [1, 2, 3, 5, 8, 12, 15, 20, 22, 30];
+/// Asientos vendidos por viaje (demo estático).
+const mockVendidosPorViaje = <int, List<int>>{
+  101: [1, 2, 3, 5, 8, 12, 15, 20, 22, 30],
+  103: [4, 6, 7, 9],
+  104: [11, 13, 14],
+  102: [2, 4, 6, 8, 10, 12, 14, 16],
+  105: [1, 3, 5],
+  201: [10, 11, 15, 18],
+  202: [5, 7],
+  203: [3, 6, 9, 12],
+  301: [1, 2, 4, 8, 16, 24],
+  302: [6, 7, 8],
+};
 
 List<Map<String, dynamic>> _buildAsientosBusJson(int busId) {
   final asientos = <Map<String, dynamic>>[];
@@ -63,6 +76,15 @@ final mockEmpresasJson = [
     'logoUrl': null,
     'activo': true,
   },
+  {
+    'id': 3,
+    'nombre': 'Costa Caribe Express',
+    'telefono': '2572-1122',
+    'correo': 'info@costacaribe.com',
+    'tarifaEquipajeExtra': 140.0,
+    'logoUrl': null,
+    'activo': true,
+  },
 ];
 
 final mockBusesJson = [
@@ -92,6 +114,18 @@ final mockBusesJson = [
   },
   {
     'id': 3,
+    'empresaId': 1,
+    'numeroInterno': 'W-03',
+    'placa': 'NI-1003',
+    'capacidad': 50,
+    'filas': 13,
+    'activo': true,
+    'fotoUrl': '/images/bus-yutong-interurbano.png',
+    'sede': 'Bluefields',
+    'asientos': _buildAsientosBusJson(3),
+  },
+  {
+    'id': 4,
     'empresaId': 2,
     'numeroInterno': 'M-01',
     'placa': 'NI-2001',
@@ -100,61 +134,231 @@ final mockBusesJson = [
     'activo': true,
     'fotoUrl': '/images/bus-yutong-interurbano.png',
     'sede': 'Bluefields',
-    'asientos': _buildAsientosBusJson(3),
+    'asientos': _buildAsientosBusJson(4),
+  },
+  {
+    'id': 5,
+    'empresaId': 2,
+    'numeroInterno': 'M-02',
+    'placa': 'NI-2002',
+    'capacidad': 50,
+    'filas': 13,
+    'activo': true,
+    'fotoUrl': '/images/bus-yutong-interurbano.png',
+    'sede': 'Managua',
+    'asientos': _buildAsientosBusJson(5),
+  },
+  {
+    'id': 6,
+    'empresaId': 3,
+    'numeroInterno': 'CC-01',
+    'placa': 'NI-3101',
+    'capacidad': 50,
+    'filas': 13,
+    'activo': true,
+    'fotoUrl': '/images/bus-yutong-interurbano.png',
+    'sede': 'Bluefields',
+    'asientos': _buildAsientosBusJson(6),
+  },
+  {
+    'id': 7,
+    'empresaId': 3,
+    'numeroInterno': 'CC-02',
+    'placa': 'NI-3102',
+    'capacidad': 50,
+    'filas': 13,
+    'activo': true,
+    'fotoUrl': '/images/bus-yutong-interurbano.png',
+    'sede': 'Managua',
+    'asientos': _buildAsientosBusJson(7),
   },
 ];
 
-List<Map<String, dynamic>> mockViajesOperadorJson(String fecha) => [
-      {
-        'id': 101,
-        'empresaId': 1,
-        'empresaNombre': 'Wendelyn Transporte',
-        'busId': 1,
-        'busNumeroInterno': 'W-01',
-        'origen': 'Bluefields',
-        'destino': 'Managua',
-        'fecha': fecha,
-        'horaSalida': '06:00:00',
-        'tarifa': 350.0,
-        'tarifaEquipajeExtra': 150.0,
-        'estado': 'PROGRAMADO',
-        'asientosDisponibles': 50 - vendidosViaje101.length,
-      },
-      {
-        'id': 102,
-        'empresaId': 1,
-        'empresaNombre': 'Wendelyn Transporte',
-        'busId': 2,
-        'busNumeroInterno': 'W-02',
-        'origen': 'Managua',
-        'destino': 'Bluefields',
-        'fecha': fecha,
-        'horaSalida': '14:30:00',
-        'tarifa': 350.0,
-        'tarifaEquipajeExtra': 150.0,
-        'estado': 'PROGRAMADO',
-        'asientosDisponibles': 42,
-      },
-      {
-        'id': 201,
-        'empresaId': 2,
-        'empresaNombre': 'Martínez Líneas',
-        'busId': 3,
-        'busNumeroInterno': 'M-01',
-        'origen': 'Bluefields',
-        'destino': 'Managua',
-        'fecha': fecha,
-        'horaSalida': '07:30:00',
-        'tarifa': 320.0,
-        'tarifaEquipajeExtra': 120.0,
-        'estado': 'PROGRAMADO',
-        'asientosDisponibles': 38,
-      },
-    ];
+Map<String, dynamic> _viajeTemplate({
+  required int id,
+  required int empresaId,
+  required String empresaNombre,
+  required int busId,
+  required String busNumeroInterno,
+  required String origen,
+  required String destino,
+  required String horaSalida,
+  required double tarifa,
+  required double tarifaEquipajeExtra,
+  required int asientosDisponibles,
+}) =>
+    {
+      'id': id,
+      'empresaId': empresaId,
+      'empresaNombre': empresaNombre,
+      'busId': busId,
+      'busNumeroInterno': busNumeroInterno,
+      'origen': origen,
+      'destino': destino,
+      'horaSalida': horaSalida,
+      'tarifa': tarifa,
+      'tarifaEquipajeExtra': tarifaEquipajeExtra,
+      'estado': 'PROGRAMADO',
+      'asientosDisponibles': asientosDisponibles,
+    };
 
-List<Map<String, dynamic>> mockViajesDisponiblesJson(String fecha) {
-  return mockViajesOperadorJson(fecha)
-      .where((v) => v['origen'] == 'Bluefields' && v['destino'] == 'Managua')
+List<Map<String, dynamic>> mockViajesOperadorJson(String fecha) {
+  const cap = 50;
+  int disp(int id) => cap - (mockVendidosPorViaje[id]?.length ?? 0);
+
+  final templates = [
+    // Wendelyn — Bluefields → Managua
+    _viajeTemplate(
+      id: 101,
+      empresaId: 1,
+      empresaNombre: 'Wendelyn Transporte',
+      busId: 1,
+      busNumeroInterno: 'W-01',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '06:00:00',
+      tarifa: 350,
+      tarifaEquipajeExtra: 150,
+      asientosDisponibles: disp(101),
+    ),
+    _viajeTemplate(
+      id: 103,
+      empresaId: 1,
+      empresaNombre: 'Wendelyn Transporte',
+      busId: 3,
+      busNumeroInterno: 'W-03',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '09:00:00',
+      tarifa: 350,
+      tarifaEquipajeExtra: 150,
+      asientosDisponibles: disp(103),
+    ),
+    _viajeTemplate(
+      id: 104,
+      empresaId: 1,
+      empresaNombre: 'Wendelyn Transporte',
+      busId: 1,
+      busNumeroInterno: 'W-01',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '12:00:00',
+      tarifa: 350,
+      tarifaEquipajeExtra: 150,
+      asientosDisponibles: disp(104),
+    ),
+    // Wendelyn — Managua → Bluefields
+    _viajeTemplate(
+      id: 102,
+      empresaId: 1,
+      empresaNombre: 'Wendelyn Transporte',
+      busId: 2,
+      busNumeroInterno: 'W-02',
+      origen: 'Managua',
+      destino: 'Bluefields',
+      horaSalida: '14:30:00',
+      tarifa: 350,
+      tarifaEquipajeExtra: 150,
+      asientosDisponibles: disp(102),
+    ),
+    _viajeTemplate(
+      id: 105,
+      empresaId: 1,
+      empresaNombre: 'Wendelyn Transporte',
+      busId: 2,
+      busNumeroInterno: 'W-02',
+      origen: 'Managua',
+      destino: 'Bluefields',
+      horaSalida: '18:00:00',
+      tarifa: 350,
+      tarifaEquipajeExtra: 150,
+      asientosDisponibles: disp(105),
+    ),
+    // Martínez
+    _viajeTemplate(
+      id: 201,
+      empresaId: 2,
+      empresaNombre: 'Martínez Líneas',
+      busId: 4,
+      busNumeroInterno: 'M-01',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '07:30:00',
+      tarifa: 320,
+      tarifaEquipajeExtra: 120,
+      asientosDisponibles: disp(201),
+    ),
+    _viajeTemplate(
+      id: 202,
+      empresaId: 2,
+      empresaNombre: 'Martínez Líneas',
+      busId: 4,
+      busNumeroInterno: 'M-01',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '11:00:00',
+      tarifa: 320,
+      tarifaEquipajeExtra: 120,
+      asientosDisponibles: disp(202),
+    ),
+    _viajeTemplate(
+      id: 203,
+      empresaId: 2,
+      empresaNombre: 'Martínez Líneas',
+      busId: 5,
+      busNumeroInterno: 'M-02',
+      origen: 'Managua',
+      destino: 'Bluefields',
+      horaSalida: '15:00:00',
+      tarifa: 320,
+      tarifaEquipajeExtra: 120,
+      asientosDisponibles: disp(203),
+    ),
+    // Costa Caribe
+    _viajeTemplate(
+      id: 301,
+      empresaId: 3,
+      empresaNombre: 'Costa Caribe Express',
+      busId: 6,
+      busNumeroInterno: 'CC-01',
+      origen: 'Bluefields',
+      destino: 'Managua',
+      horaSalida: '05:45:00',
+      tarifa: 345,
+      tarifaEquipajeExtra: 140,
+      asientosDisponibles: disp(301),
+    ),
+    _viajeTemplate(
+      id: 302,
+      empresaId: 3,
+      empresaNombre: 'Costa Caribe Express',
+      busId: 7,
+      busNumeroInterno: 'CC-02',
+      origen: 'Managua',
+      destino: 'Bluefields',
+      horaSalida: '16:30:00',
+      tarifa: 345,
+      tarifaEquipajeExtra: 140,
+      asientosDisponibles: disp(302),
+    ),
+  ];
+
+  return templates.map((v) => {...v, 'fecha': fecha}).toList();
+}
+
+List<Map<String, dynamic>> mockViajesDisponiblesJson(
+  String fecha, {
+  String? origen,
+  String? destino,
+}) {
+  var list = mockViajesOperadorJson(fecha);
+  if (origen != null && origen.isNotEmpty) {
+    list = list.where((v) => v['origen'] == origen).toList();
+  }
+  if (destino != null && destino.isNotEmpty) {
+    list = list.where((v) => v['destino'] == destino).toList();
+  }
+  return list
       .map(
         (v) => {
           'viajeId': v['id'],
@@ -169,7 +373,9 @@ List<Map<String, dynamic>> mockViajesDisponiblesJson(String fecha) {
       .toList();
 }
 
-final mockParadasJson = [
+List<int> vendidosForViaje(int viajeId) => mockVendidosPorViaje[viajeId] ?? const [];
+
+final mockParadasBfsMgaJson = [
   {
     'id': 1,
     'nombre': 'Terminal Bluefields',
@@ -208,6 +414,50 @@ final mockParadasJson = [
   },
 ];
 
+final mockParadasMgaBfsJson = [
+  {
+    'id': 11,
+    'nombre': 'Terminal Managua',
+    'orden': 1,
+    'minutosDesdeSalida': 0,
+    'horaEstimada': '14:30:00',
+    'latitud': 12.1364,
+    'longitud': -86.2514,
+  },
+  {
+    'id': 12,
+    'nombre': 'Juigalpa',
+    'orden': 2,
+    'minutosDesdeSalida': 180,
+    'horaEstimada': '17:30:00',
+    'latitud': 12.106,
+    'longitud': -85.364,
+  },
+  {
+    'id': 13,
+    'nombre': 'El Rama',
+    'orden': 3,
+    'minutosDesdeSalida': 390,
+    'horaEstimada': '21:00:00',
+    'latitud': 12.1597,
+    'longitud': -84.2192,
+  },
+  {
+    'id': 14,
+    'nombre': 'Terminal Bluefields',
+    'orden': 4,
+    'minutosDesdeSalida': 480,
+    'horaEstimada': '22:30:00',
+    'latitud': 12.0131,
+    'longitud': -83.7634,
+  },
+];
+
+List<Map<String, dynamic>> mockParadasForRoute(String origen, String destino) {
+  if (origen == 'Managua' && destino == 'Bluefields') return mockParadasMgaBfsJson;
+  return mockParadasBfsMgaJson;
+}
+
 Map<String, dynamic>? mockDetalleViajeJson(int viajeId) {
   final fecha = fechaHoyIso();
   Map<String, dynamic>? viaje;
@@ -220,15 +470,13 @@ Map<String, dynamic>? mockDetalleViajeJson(int viajeId) {
   if (viaje == null) return null;
   final v = viaje;
 
-  final vendidos = viajeId == 101
-      ? vendidosViaje101
-      : viajeId == 102
-          ? [4, 6, 7]
-          : [10, 11];
+  final vendidos = vendidosForViaje(viajeId);
   final bus = mockBusesJson.cast<Map<String, dynamic>>().firstWhere(
         (b) => b['id'] == v['busId'],
         orElse: () => mockBusesJson.first,
       );
+  final origen = v['origen'] as String;
+  final destino = v['destino'] as String;
 
   return {
     'viajeId': v['id'],
@@ -236,32 +484,37 @@ Map<String, dynamic>? mockDetalleViajeJson(int viajeId) {
     'empresaLogoUrl': null,
     'busNumeroInterno': v['busNumeroInterno'],
     'busFotoUrl': bus['fotoUrl'],
-    'origen': v['origen'],
-    'destino': v['destino'],
+    'origen': origen,
+    'destino': destino,
     'fecha': v['fecha'],
     'horaSalida': v['horaSalida'],
     'tarifa': v['tarifa'],
     'tarifaEquipajeExtra': v['tarifaEquipajeExtra'] ?? 150.0,
     'asientosDisponibles': v['asientosDisponibles'],
     'asientos': buildAsientosViajeJson(viajeId, vendidos),
-    'paradas': mockParadasJson,
+    'paradas': mockParadasForRoute(origen, destino),
   };
 }
 
-final mockPerfilJson = {
-  'id': 1,
-  'empresaId': 1,
-  'empresaNombre': 'Wendelyn Transporte',
-  'nombreUsuario': 'demo',
-  'emailLogin': 'demo@transporte.com',
-  'nombreCompleto': 'Usuario Demo',
-  'sede': 'Bluefields',
-  'activo': true,
-  'roles': ['ADMIN_GENERAL', 'ADMIN_EMPRESA', 'CAJERO'],
-};
+Map<String, dynamic> mockPerfilForProfile(MockDemoProfile profile) => {
+      'id': switch (profile) {
+        MockDemoProfile.globalAdmin => 1,
+        MockDemoProfile.adminEmpresa => 3,
+        MockDemoProfile.cajero => 2,
+      },
+      'empresaId': profile == MockDemoProfile.globalAdmin ? null : 1,
+      'empresaNombre': profile == MockDemoProfile.globalAdmin ? null : 'Wendelyn Transporte',
+      'nombreUsuario': profile.username,
+      'emailLogin': profile.email,
+      'nombreCompleto': profile.displayName,
+      'sede': profile == MockDemoProfile.cajero || profile == MockDemoProfile.adminEmpresa
+          ? 'Bluefields'
+          : null,
+      'activo': true,
+      'roles': profile.roles,
+    };
 
 final mockOperadoresJson = [
-  mockPerfilJson,
   {
     'id': 2,
     'empresaId': 1,
@@ -291,19 +544,28 @@ final mockResumenPlataformaJson = [
     'id': 1,
     'nombre': 'Wendelyn Transporte',
     'activo': true,
-    'busesActivos': 2,
+    'busesActivos': 3,
     'operadoresActivos': 3,
-    'viajesHoy': 2,
-    'boletosVendidosHoy': 18,
+    'viajesHoy': 5,
+    'boletosVendidosHoy': 28,
   },
   {
     'id': 2,
     'nombre': 'Martínez Líneas',
     'activo': true,
-    'busesActivos': 1,
+    'busesActivos': 2,
     'operadoresActivos': 2,
-    'viajesHoy': 1,
-    'boletosVendidosHoy': 12,
+    'viajesHoy': 3,
+    'boletosVendidosHoy': 14,
+  },
+  {
+    'id': 3,
+    'nombre': 'Costa Caribe Express',
+    'activo': true,
+    'busesActivos': 2,
+    'operadoresActivos': 2,
+    'viajesHoy': 2,
+    'boletosVendidosHoy': 11,
   },
 ];
 
@@ -325,7 +587,12 @@ Map<String, dynamic> mockDetalleCooperativaJson(int empresaId) {
       'cajerosActivos': 1,
       'cajerosInactivos': 0,
       'viajesHoy': mockViajesOperadorJson(fecha).where((v) => v['empresaId'] == empresaId).length,
-      'boletosVendidosHoy': empresaId == 1 ? 18 : 12,
+      'boletosVendidosHoy': mockManifiestoJson(fecha)
+          .where((m) {
+            final viajeId = m['viajeId'] as int;
+            return mockViajesOperadorJson(fecha).any((v) => v['id'] == viajeId && v['empresaId'] == empresaId);
+          })
+          .length,
     },
     'operadores': mockOperadoresJson
         .where((o) => o['empresaId'] == empresaId)
@@ -407,6 +674,78 @@ List<Map<String, dynamic>> mockManifiestoJson(String fecha) => [
         'pasajeroCedula': '001-080785-0003C',
         'pasajeroTelefono': '7777-2222',
         'codigoVenta': 'VT-DEMO-002',
+        'operadorNombre': 'Cajero Wendelyn',
+        'estadoBoleto': 'VENDIDO',
+        'esMenor': false,
+      },
+      {
+        'boletoId': 4,
+        'viajeId': 103,
+        'fechaViaje': fecha,
+        'horaSalida': '09:00:00',
+        'origen': 'Bluefields',
+        'destino': 'Managua',
+        'busNumeroInterno': 'W-03',
+        'busPlaca': 'NI-1003',
+        'numeroAsiento': 4,
+        'pasajeroNombre': 'Roberto Silva',
+        'pasajeroCedula': '001-220190-0004D',
+        'pasajeroTelefono': '8888-3333',
+        'codigoVenta': 'VT-DEMO-003',
+        'operadorNombre': 'Cajero Wendelyn',
+        'estadoBoleto': 'VENDIDO',
+        'esMenor': false,
+      },
+      {
+        'boletoId': 5,
+        'viajeId': 201,
+        'fechaViaje': fecha,
+        'horaSalida': '07:30:00',
+        'origen': 'Bluefields',
+        'destino': 'Managua',
+        'busNumeroInterno': 'M-01',
+        'busPlaca': 'NI-2001',
+        'numeroAsiento': 10,
+        'pasajeroNombre': 'Lucía Mendoza',
+        'pasajeroCedula': '001-091288-0005E',
+        'pasajeroTelefono': '7777-4444',
+        'codigoVenta': 'VT-DEMO-004',
+        'operadorNombre': 'Cajero Wendelyn',
+        'estadoBoleto': 'VENDIDO',
+        'esMenor': false,
+      },
+      {
+        'boletoId': 6,
+        'viajeId': 301,
+        'fechaViaje': fecha,
+        'horaSalida': '05:45:00',
+        'origen': 'Bluefields',
+        'destino': 'Managua',
+        'busNumeroInterno': 'CC-01',
+        'busPlaca': 'NI-3101',
+        'numeroAsiento': 8,
+        'pasajeroNombre': 'Pedro Hodgson',
+        'pasajeroCedula': '001-070586-0006F',
+        'pasajeroTelefono': null,
+        'codigoVenta': 'VT-DEMO-005',
+        'operadorNombre': 'Cajero Wendelyn',
+        'estadoBoleto': 'VENDIDO',
+        'esMenor': false,
+      },
+      {
+        'boletoId': 7,
+        'viajeId': 102,
+        'fechaViaje': fecha,
+        'horaSalida': '14:30:00',
+        'origen': 'Managua',
+        'destino': 'Bluefields',
+        'busNumeroInterno': 'W-02',
+        'busPlaca': 'NI-1002',
+        'numeroAsiento': 6,
+        'pasajeroNombre': 'Sofía Ríos',
+        'pasajeroCedula': '001-130391-0007G',
+        'pasajeroTelefono': '8888-5555',
+        'codigoVenta': 'VT-DEMO-006',
         'operadorNombre': 'Cajero Wendelyn',
         'estadoBoleto': 'VENDIDO',
         'esMenor': false,

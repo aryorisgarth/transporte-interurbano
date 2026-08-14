@@ -41,6 +41,8 @@ cd mobile
 flutter build web --dart-define=USE_MOCK=true --no-web-resources-cdn
 ```
 
+En modo demo, use la **barra amarilla** para cambiar entre perfiles: **GLOBAL_ADMIN**, **ADMIN** (empresa) y **CASHIER** (cajero), sin reiniciar la app.
+
 ## Arranque Android (emulador)
 
 ```powershell

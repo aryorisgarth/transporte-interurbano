@@ -5,6 +5,7 @@ import '../../../core/api/api_client.dart';
 import '../../../core/api/transporte_api.dart';
 import '../../../core/models/viaje.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/layout/responsive.dart';
 import '../../../core/utils/corredor.dart';
 import '../../../core/utils/formato.dart';
 
@@ -221,7 +222,7 @@ class _HeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(AppBreakpoints.isMobile(context) ? 16 : 24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: AppColors.gradientHero),
         borderRadius: BorderRadius.circular(20),
@@ -240,7 +241,7 @@ class _HeroHeader extends StatelessWidget {
           const SizedBox(height: 20),
           LayoutBuilder(
             builder: (context, constraints) {
-              final stacked = constraints.maxWidth < 480;
+              final stacked = constraints.maxWidth < AppBreakpoints.mobile;
               final routeSelector = stacked
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -386,6 +387,7 @@ class _ViajeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pct = viaje.capacidadTotal > 0 ? (viaje.asientosDisponibles / viaje.capacidadTotal * 100).round() : 0;
+    final mobile = AppBreakpoints.isMobile(context);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -393,26 +395,35 @@ class _ViajeTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: AppColors.primary.withValues(alpha: 0.12),
-                child: Text(
-                  viaje.empresaNombre.isNotEmpty ? viaje.empresaNombre[0] : '?',
-                  style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.all(mobile ? 12 : 16),
+          child: mobile
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(viaje.empresaNombre, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16), overflow: TextOverflow.ellipsis),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: AppColors.primary.withValues(alpha: 0.12),
+                          child: Text(
+                            viaje.empresaNombre.isNotEmpty ? viaje.empresaNombre[0] : '?',
+                            style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            viaje.empresaNombre,
+                            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (onTap != null) const Icon(Icons.chevron_right, color: AppColors.primary),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
                     Text(
                       '${formatearHora(viaje.horaSalida)} · ${formatearCordobas(viaje.tarifa)}',
                       style: TextStyle(color: Colors.grey.shade600),
-                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       viaje.asientosDisponibles == 0
@@ -425,11 +436,47 @@ class _ViajeTile extends StatelessWidget {
                       ),
                     ),
                   ],
+                )
+              : Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: AppColors.primary.withValues(alpha: 0.12),
+                      child: Text(
+                        viaje.empresaNombre.isNotEmpty ? viaje.empresaNombre[0] : '?',
+                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            viaje.empresaNombre,
+                            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            '${formatearHora(viaje.horaSalida)} · ${formatearCordobas(viaje.tarifa)}',
+                            style: TextStyle(color: Colors.grey.shade600),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            viaje.asientosDisponibles == 0
+                                ? 'Sin cupos'
+                                : '$pct% libre · ${viaje.asientosDisponibles} asientos',
+                            style: TextStyle(
+                              color: viaje.asientosDisponibles == 0 ? Colors.red : AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (onTap != null) const Icon(Icons.chevron_right, color: AppColors.primary),
+                  ],
                 ),
-              ),
-              if (onTap != null) const Icon(Icons.chevron_right, color: AppColors.primary),
-            ],
-          ),
         ),
       ),
     );

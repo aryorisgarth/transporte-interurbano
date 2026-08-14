@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Text(
                       'Modo demo: use cualquier usuario/contraseña. '
-                      'Sesión: ${DemoUser.name} (${DemoUser.email}).',
+                      'Cambie el perfil (GLOBAL_ADMIN / ADMIN / CASHIER) en la barra amarilla superior.',
                       style: TextStyle(color: Colors.blue.shade900, fontSize: 13),
                     ),
                   ),

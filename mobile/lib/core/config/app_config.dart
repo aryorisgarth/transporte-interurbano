@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../auth/jwt_utils.dart';
-
 /// Configuración de URLs — equivalente a VITE_API_URL / VITE_USE_MOCK en React.
 class AppConfig {
   AppConfig._();
@@ -25,18 +23,4 @@ class AppConfig {
   static String get loginUrl => '$apiBaseUrl/api/auth/token';
 
   static const String keycloakClientId = 'transporte-api';
-}
-
-/// Usuario demo cuando [AppConfig.useMock] es true.
-class DemoUser {
-  DemoUser._();
-
-  static const name = 'Usuario Demo';
-  static const username = 'demo';
-  static const email = 'demo@transporte.com';
-  static const roles = [
-    AppRoles.adminGeneral,
-    AppRoles.adminEmpresa,
-    AppRoles.cajero,
-  ];
 }

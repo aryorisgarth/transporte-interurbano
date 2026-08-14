@@ -6,6 +6,7 @@ import '../../../core/api/transporte_api.dart';
 import '../../../core/models/viaje.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formato.dart';
+import '../../../shared/layout/responsive.dart';
 import '../../../shared/widgets/empresa_avatar.dart';
 import '../../../shared/widgets/mapa_ruta.dart';
 import '../../../shared/widgets/seat_grid.dart';
@@ -132,7 +133,7 @@ class _DetalleViajePageState extends State<DetalleViajePage> {
             );
 
             return Container(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(AppBreakpoints.isMobile(context) ? 16 : 24),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(colors: AppColors.gradientHero),
                 borderRadius: BorderRadius.circular(20),
@@ -200,24 +201,49 @@ class _DetalleViajePageState extends State<DetalleViajePage> {
         ),
         if (d.paradas.isNotEmpty) ...[
           const SizedBox(height: 20),
-          MapaRuta(paradas: d.paradas, origen: d.origen, destino: d.destino),
-        ],
-        const SizedBox(height: 20),
-        SectionCard(
-          title: 'Mapa de asientos',
-          noPadding: true,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              height: 520,
-              child: SeatGrid(
-                asientos: d.asientos,
-                busNumeroInterno: d.busNumeroInterno,
-                busFotoUrl: d.busFotoUrl,
+          ResponsiveTwoColumn(
+            primary: MapaRuta(paradas: d.paradas, origen: d.origen, destino: d.destino),
+            secondary: SectionCard(
+              title: 'Mapa de asientos',
+              noPadding: true,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final height = AppBreakpoints.isMobile(context) ? 420.0 : 520.0;
+                    return SizedBox(
+                      height: height,
+                      child: SeatGrid(
+                        asientos: d.asientos,
+                        busNumeroInterno: d.busNumeroInterno,
+                        busFotoUrl: d.busFotoUrl,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            primaryFlex: 5,
+            secondaryFlex: 6,
+          ),
+        ] else ...[
+          const SizedBox(height: 20),
+          SectionCard(
+            title: 'Mapa de asientos',
+            noPadding: true,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                height: AppBreakpoints.isMobile(context) ? 420 : 520,
+                child: SeatGrid(
+                  asientos: d.asientos,
+                  busNumeroInterno: d.busNumeroInterno,
+                  busFotoUrl: d.busFotoUrl,
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ],
     );
   }
