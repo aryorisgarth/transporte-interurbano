@@ -24,7 +24,7 @@ jobs:
         working-directory: backend
         run: mvn -B test
 
-  frontend:
+frontend:
     name: Frontend (Vite)
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +39,7 @@ jobs:
         working-directory: frontend
         run: |
           npm install
-          npm run build
+          npx vite build
 
   mobile:
     name: Mobile (Flutter)
